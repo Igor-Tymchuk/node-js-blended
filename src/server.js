@@ -3,6 +3,7 @@ import cors from 'cors';
 import {
   getAllProductsController,
   getProductByIdController,
+  createProductController,
 } from './controllers/products.js';
 
 import { env } from './utils/env.js';
@@ -18,6 +19,8 @@ export const setupServer = () => {
   app.get('/products', getAllProductsController);
 
   app.get('/products/:productId', getProductByIdController);
+
+  app.post('/products', createProductController);
 
   app.use('*', (req, res) => {
     res.status(404).json({ message: 'Route not found!' });

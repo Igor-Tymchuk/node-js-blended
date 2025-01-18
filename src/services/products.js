@@ -12,3 +12,6 @@ export const getAllProducts = () => ProductsCollection.find();
 
 export const getProductById = (productId) =>
   ProductsCollection.findById(productId);
+
+export const createProduct = (productData) =>
+  ProductsCollection.create(productData);
