@@ -3,7 +3,7 @@ import cors from 'cors';
 
 import { env } from './utils/env.js';
 import productRouter from './routers/productsRouter.js';
-import { errorHandler } from './middlwares/errorHandler.js';
+import { errorHandler } from './middlewares/errorHandler.js';
 
 const PORT = Number(env('PORT', '3000'));
 
