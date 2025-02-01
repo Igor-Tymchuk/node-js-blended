@@ -7,6 +7,8 @@ import {
 } from './controllers/products.js';
 
 import { env } from './utils/env.js';
+import productRouter from './routers/productsRouter.js';
+import { errorHandler } from './middlwares/errorHandler.js';
 
 const PORT = Number(env('PORT', '3000'));
 
@@ -16,15 +18,13 @@ export const setupServer = () => {
   app.use(express.json());
   app.use(cors());
 
-  app.get('/products', getAllProductsController);
-
-  app.get('/products/:productId', getProductByIdController);
-
-  app.post('/products', createProductController);
+  app.use('/products', productRouter);
 
   app.use('*', (req, res) => {
     res.status(404).json({ message: 'Route not found!' });
   });
+
+  app.use(errorHandler);
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

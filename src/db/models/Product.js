@@ -20,7 +20,10 @@ const productsSchema = new Schema(
       type: String,
     },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    versionKey: false,
+  },
 );
 
 export const ProductsCollection = model('product', productsSchema);

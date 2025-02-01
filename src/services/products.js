@@ -15,3 +15,9 @@ export const getProductById = (productId) =>
 
 export const createProduct = (productData) =>
   ProductsCollection.create(productData);
+
+export const deleteProduct = (productId) =>
+  ProductsCollection.findByIdAndDelete(productId);
+
+// export const deleteProduct = (productId) =>
+//   ProductsCollection.findOneAndDelete({ _id: productId });

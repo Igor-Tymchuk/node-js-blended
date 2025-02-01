@@ -2,7 +2,9 @@ import {
   getAllProducts,
   getProductById,
   createProduct,
+  deleteProduct,
 } from '../services/products.js';
+import createHttpError from 'http-errors';
 
 export const getAllProductsController = async (req, res) => {
   const products = await getAllProducts();
@@ -19,10 +21,7 @@ export const getProductByIdController = async (req, res) => {
   const product = await getProductById(productId);
 
   if (!product) {
-    res.status(404).json({
-      message: 'Product not found',
-    });
-    return;
+    throw createHttpError(404, 'Product not found');
   }
 
   res.status(200).json({
@@ -40,4 +39,14 @@ export const createProductController = async (req, res) => {
     message: 'Successfully created a product!',
     data: newProduct,
   });
+};
+
+export const deleteProductController = async (req, res) => {
+  const { productId } = req.params;
+  const product = await deleteProduct(productId);
+  if (!product) {
+    throw createHttpError(404, 'Product not found');
+  }
+  // res.status(204).end();
+  res.sendStatus(204);
 };
