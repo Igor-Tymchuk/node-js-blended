@@ -1,10 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import {
-  getAllProductsController,
-  getProductByIdController,
-  createProductController,
-} from './controllers/products.js';
 
 import { env } from './utils/env.js';
 import productRouter from './routers/productsRouter.js';
