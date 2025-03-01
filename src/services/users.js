@@ -22,6 +22,9 @@ export const createNewUser = async (userData) => {
   return updateUserWithToken(user._id);
 };
 
+export const findUserById = (userId) => UsersCollection.findById(userId);
+export const logout = (userId) =>
+  UsersCollection.findByIdAndUpdate(userId, { token: '' });
 // export const createSession = async (userId) => {
 //   await SessionsCollection.findOneAndDelete({ userId });
 //   return SessionsCollection.create({ ...createSessionObject(), userId });

@@ -2,9 +2,12 @@ import createHttpError from 'http-errors';
 import {
   findUserByEmail,
   createNewUser,
+  updateUserWithToken,
+  logout,
   // createSession,
 } from '../services/users.js';
-// import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
+import { env } from '../utils/env.js';
 // import { setupCookies } from '../utils/setupCookies.js';
 
 export const registerUserController = async (req, res) => {
@@ -20,22 +23,22 @@ export const registerUserController = async (req, res) => {
   });
 };
 
-// export const loginUserController = async (req, res) => {
-//   const user = await findUserByEmail(req.body.email);
-//   if (!user) throw createHttpError(401, 'User not found');
+export const loginUserController = async (req, res) => {
+  const user = await findUserByEmail(req.body.email);
+  if (!user) throw createHttpError(401, 'User not found');
+  const passwordValidate = bcrypt.compare(req.body.password, user.password);
+  if (!passwordValidate) throw createHttpError(401, 'Wrong credentials');
+  const userWithToken = await updateUserWithToken(user._id);
+  res.json({
+    user: {
+      name: userWithToken.name,
+      email: userWithToken.email,
+    },
+    token: userWithToken.token,
+  });
+};
 
-//   const passwordValidate = bcrypt.compare(req.body.password, user.password);
-
-//   if (!passwordValidate) throw createHttpError(401, 'Wrong credentials');
-
-//   const session = await createSession(user._id);
-//   setupCookies(session.refreshToken, session._id, res);
-
-//   res.json({
-//     status: 200,
-//     message: 'Successfully logged in an user!',
-//     data: {
-//       accessToken: session.accessToken,
-//     },
-//   });
-// };
+export const logoutUserController = async (req, res) => {
+  await logout(req.user._id);
+  res.sendStatus(204);
+};
